@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>仿邮箱收件人输入框</title>
+	<script src="js/lib/jquery-1.10.2.min.js"></script>
+	<script src="js/lib/require.js"></script>
+	<style>
+	select{min-width: 150px;margin: 20px;}
+	</style>
+</head>
+<body>
+	<div>
+		<p>
+			<select id="js-continent">
+				<option value="0">
+					请选择大洲
+				</option>
+			</select>
+			<select id="js-country">
+				<option value="0">请选择国家</option>
+			</select>
+			<select id="js-city">
+				<option value="0">请选择城市</option>
+			</select>
+			<select id="js-place">
+				<option value="0">请选择地点</option>
+			</select>
+		</p>
+	</div>
+	<script>
+	var testData = {
+			error_code:0,
+			data:{
+				list:[
+					{
+						id:1,
+						value:"河北"
+					},
+					{
+						id:2,
+						value:"上海"
+					},
+					{
+						id:2,
+						value:"北京"
+					}
+				]
+			}
+		}
+	require(['js/component/linkage'],function(L) {
+		var l = new L({
+			selects:[
+				{	//select选择器或对象
+					tar:"#js-continent",
+					//取得数据的url
+					url:"/country",
+					//是否禁用,默认禁用
+					disabled:0,
+					//select列表数据内容,不主动使用
+					data:{},
+					//url请求数据的时候用来区别的类别
+					typeValue:"country"
+				},
+				{
+					tar:"#js-country",
+					url:"/country",
+					typeValue:"name"
+				},
+				{
+					tar:"#js-city",
+					url:"/city",
+					typeValue:"name"
+				},
+				{
+					tar:"#js-place",
+					url:"/place",
+					typeValue:"name"
+				}
+			]
+		});
+		//请求数据错误的时候
+		$(l).on("getDataErrorEvent",function(e,opt){
+			alert('第'+(opt.index-0+1)+'个select取数据有问题');
+		});
+		//大洲数据，页面可以直接渲染好，就不需要以下的步骤了
+		var continentData = {
+			error_code:0,
+			data:{
+				list:[
+					{id:"1",value:"亚洲"},
+					{id:"2",value:"欧洲"},
+					{id:"3",value:"南美洲"},
+					{id:"4",value:"北美洲"},
+					{id:"5",value:"非洲"},
+					{id:"6",value:"南极洲"},
+					{id:"7",value:"大洋洲"}
+				]
+			}
+		}
+		l.setData(continentData,0);
+	})
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
